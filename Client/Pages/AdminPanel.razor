@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using MudBlazor
+
+<AuthorizeView>
+
+    <NotAuthorized>
+    </NotAuthorized>
+
+    <Authorized>
+        <MudMenu Label="Admin Panel">
+            <MudMenuItem>Role Manager</MudMenuItem>
+        </MudMenu>
+    </Authorized>
+
+</AuthorizeView>
