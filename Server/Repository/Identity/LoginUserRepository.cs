@@ -90,8 +90,9 @@ namespace Bondlog.Server.Repository.Identity
             return new UserSessionModel()
             {
                 Username = loginModel.Email,
-                Role = userRoles.FirstOrDefault(),
+                UserRole = userRoles.FirstOrDefault(),
                 Token = token,
+                Successful = true,
             };
         }
     }

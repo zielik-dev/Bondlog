@@ -5,4 +5,10 @@ Completed:
 
 
 YT: https://www.youtube.com/watch?v=bImhNXBs_hY&t=446s
-15min
+22min
+
+
+
+EOD:
+====
+dziala rejestracja

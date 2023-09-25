@@ -13,16 +13,6 @@ namespace Bondlog.Server.Infrastructure
 
             services.AddDbContext<ApplicationDbContext> (options => options.UseSqlServer(configuration.GetConnectionString("ApplicationDbConnection")));
 
-            services.AddIdentityCore<IdentityUser>(options =>
-            {
-                options.Password.RequireDigit = false;
-                options.Password.RequiredLength = 5;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.SignIn.RequireConfirmedEmail = false;
-            }).AddEntityFrameworkStores<ApplicationDbContext>();
-
             return services;
         }
     }
