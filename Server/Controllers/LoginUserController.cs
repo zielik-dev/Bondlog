@@ -24,7 +24,8 @@ namespace Bondlog.Server.Controllers
 
             if (userSession.Successful)
             {
-                return Ok(new {token = userSession.Token});
+                //return Ok(new {token = userSession.Token});
+                return Ok(userSession);
             }
             else
             {

@@ -1,8 +1,16 @@
 ﻿@page "/login"
+@using Blazor.SubtleCrypto;
+@using Blazored.LocalStorage;
+@using Bondlog.Client.Providers;
 @using Bondlog.Client.Services;
 @using Bondlog.Shared.Domain.Models;
-@inject IAuthService AuthService
-@inject NavigationManager NavigationManager
+@using Microsoft.AspNetCore.Components.Authorization;
+@inject IJSRuntime js;
+@inject IAuthService authService
+@inject ICryptoService cryptoService
+@inject ILocalStorageService localStorageService;
+@inject NavigationManager navigationManager
+@inject AuthenticationStateProvider authenticationStateProvider;
 
 <h1>Login</h1>
 
@@ -33,30 +41,56 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </EditForm>
     </div>
-
 </div>
 
 
 
 @code {
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
     private LoginModel loginModel = new LoginModel();
     private bool ShowErrors;
     private string Error = "";
 
-    private async Task HandleLogin()
+    protected override async Task OnInitializedAsync()
+    {
+        var user = (await AuthState).User;
+
+        if (user!.Identity!.IsAuthenticated)
+            navigationManager.NavigateTo("/");
+        else
+            await base.OnInitializedAsync();
+    }
+
+    public async Task HandleLogin()
     {
         ShowErrors = false;
 
-        var result = await AuthService.Login(loginModel);
+        var result = await authService.LoginUser(loginModel);
 
-        if (result.Successful)
+        if (result.Token is not null || result.Username is not null || result.UserRole is not null)
         {
-            NavigationManager.NavigateTo("/");
+            //await _localStorageService.SetItemAsync("authToken", response!.Token);
+            //((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginModel.Email);
+            //_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", response.Token);
+
+            CryptoResult ecryptedUsername = await cryptoService.EncryptAsync(result.Username);
+            CryptoResult encryptUserRole = await cryptoService.EncryptAsync(result.UserRole);
+            var newEncryptedUserSession = new UserSessionModel()
+                {
+                    Username = ecryptedUsername.Value,
+                    UserRole = encryptUserRole.Value,
+                    Token = result.Token,
+                    Successful = result.Successful
+                };
+
+            await localStorageService.SetItemAsync("UserData", newEncryptedUserSession);
+            (authenticationStateProvider as CustomAuthenticationStateProvider).NotifyAuthenticationState();
+            navigationManager.NavigateTo("/", true);
         }
         else
         {
-            Error = result.ErrorMessage!;
-            ShowErrors = true;
+            await js.InvokeVoidAsync("alert", "Error occured");
         }
     }
 }

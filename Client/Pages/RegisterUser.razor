@@ -53,7 +53,7 @@
     {
         ShowErrors = false;
 
-        var result = await AuthService.Register(RegisterModel);
+        var result = await AuthService.RegisterUser(RegisterModel);
 
         if(result.Successful)
         {
