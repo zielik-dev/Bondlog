@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Bondlog.Server.Controllers
 {
     //[Authorize(Roles = "Administrator")]
-    [Route("api/[controller]")]
+    [Route("api/[controller]"), Authorize]
     [ApiController]
     public class RegisterUserController : ControllerBase
     {

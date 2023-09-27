@@ -1,15 +1,18 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
 @using MudBlazor
 
-<AuthorizeView>
-
-    <NotAuthorized>
-    </NotAuthorized>
+<AuthorizeView Roles="Administrator">
 
     <Authorized>
-        <MudMenu Label="Admin Panel">
-            <MudMenuItem>Role Manager</MudMenuItem>
-            <MudMenuItem>dupa Manager</MudMenuItem>
+        <MudMenu Label="Admin Panel" FullWidth="false" ActivationEvent="@MouseEvent.MouseOver" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter">
+            <ActivatorContent>
+                <MudChip Icon="@Icons.Material.Filled.AdminPanelSettings" Color="Color.Primary">Admin Panel</MudChip>
+            </ActivatorContent>
+            <ChildContent>
+                <MudMenuItem Href="/register">Register User</MudMenuItem>
+                <MudMenuItem Href="/users">Users</MudMenuItem>
+                <MudMenuItem Href="/userroles">User Roles</MudMenuItem>
+            </ChildContent>
         </MudMenu>
     </Authorized>
 

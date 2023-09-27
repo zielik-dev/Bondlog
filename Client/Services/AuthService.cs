@@ -1,6 +1,5 @@
 ﻿using Blazor.SubtleCrypto;
 using Blazored.LocalStorage;
-using Bondlog.Client.Helper;
 using Bondlog.Client.Providers;
 using Bondlog.Shared.Domain.Models;
 using Microsoft.AspNetCore.Components;

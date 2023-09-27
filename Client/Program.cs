@@ -2,7 +2,6 @@ using Blazor.SubtleCrypto;
 using Blazored.LocalStorage;
 using Bondlog.Client;
 using Bondlog.Client.Handlers;
-using Bondlog.Client.Helper;
 using Bondlog.Client.Providers;
 using Bondlog.Client.Services;
 using Microsoft.AspNetCore.Components.Authorization;
