@@ -1,6 +1,6 @@
 ﻿using Bondlog.Shared.Domain.Models;
 
-namespace Bondlog.Client.Services
+namespace Bondlog.Client.Interfaces
 {
     public interface IAuthService
     {

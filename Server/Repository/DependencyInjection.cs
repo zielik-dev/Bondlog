@@ -1,4 +1,5 @@
-﻿using Bondlog.Server.Repository.Identity;
+﻿using Bondlog.Server.Repository.Admin;
+using Bondlog.Server.Repository.Identity;
 using Bondlog.Server.Repository.Interfaces;
 
 namespace Bondlog.Server.Repository
@@ -9,10 +10,13 @@ namespace Bondlog.Server.Repository
         {
             services.AddScoped<ILoginUserRepository, LoginUserRepository>();
             services.AddScoped<IAddRoleRepository, AddRoleRepository>();
+            services.AddScoped<IGetRolesRepository, GetRolesRepository>();
+            
             services.AddScoped<IAddUserToRoleRepository, AddUserToRoleRepository>();
             services.AddScoped<IRegisterUserRepository, RegisterUserRepository>();
             services.AddScoped<IRemoveRoleRepository, RemoveRoleRepository>();
             services.AddScoped<IRemoveUserFromRoleRepository, RemoveUserFromRoleRepository>();
+
 
             return services;
         }

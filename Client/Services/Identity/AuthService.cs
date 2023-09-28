@@ -1,5 +1,6 @@
 ﻿using Blazor.SubtleCrypto;
 using Blazored.LocalStorage;
+using Bondlog.Client.Interfaces;
 using Bondlog.Client.Providers;
 using Bondlog.Shared.Domain.Models;
 using Microsoft.AspNetCore.Components;
@@ -18,17 +19,14 @@ namespace Bondlog.Client.Services
         private readonly AuthenticationStateProvider _authenticationStateProvider;
         private readonly ILocalStorageService _localStorageService;
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly ICryptoService _cryptoService;
 
         public AuthService(HttpClient httpClient, AuthenticationStateProvider authenticationStateProvider, 
-                           ILocalStorageService localStorageService, IHttpClientFactory httpClientFactory,
-                           ICryptoService cryptoService)
+                           ILocalStorageService localStorageService, IHttpClientFactory httpClientFactory)
         {
             _httpClient = httpClient;
             _authenticationStateProvider = authenticationStateProvider;
             _localStorageService = localStorageService;
             _httpClientFactory = httpClientFactory;
-            _cryptoService = cryptoService;
         }
 
         public async Task<UserSessionModel> RegisterUser(RegisterModel registerModel)

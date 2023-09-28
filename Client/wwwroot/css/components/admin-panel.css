@@ -1,0 +1,28 @@
+﻿/* Stylizacja kontenera Admin Panel */
+.admin-panel-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    background-color: #f0f0f0; /* Kolor tła */
+    width: 250px; /* Szerokość panelu */
+}
+
+/* Stylizacja etykiety Admin Panel */
+.admin-panel-label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+/* Stylizacja opcji w menu */
+.admin-panel-menu-item {
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #333; /* Kolor tekstu */
+    transition: background-color 0.3s;
+}
+
+.admin-panel-menu-item:hover {
+    background-color: #ddd; /* Kolor tła po najechaniu myszą */
+}

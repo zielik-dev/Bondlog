@@ -2,6 +2,7 @@ using Blazor.SubtleCrypto;
 using Blazored.LocalStorage;
 using Bondlog.Client;
 using Bondlog.Client.Handlers;
+using Bondlog.Client.Interfaces;
 using Bondlog.Client.Providers;
 using Bondlog.Client.Services;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -31,6 +32,7 @@ builder.Services.AddAuthorizationCore();
 //builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 builder.Services.AddScoped<CustomHttpHandler>();
+builder.Services.AddScoped<IUserRolesService, UserRolesService>();
 
 //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 

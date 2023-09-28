@@ -7,11 +7,11 @@ namespace Bondlog.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AddRoleController : ControllerBase
+    public class RoleController : ControllerBase
     {
         private readonly IAddRoleRepository _addRoleRepository;
 
-        public AddRoleController(IAddRoleRepository addRoleRepository)
+        public RoleController(IAddRoleRepository addRoleRepository)
         {
             _addRoleRepository = addRoleRepository;   
         }

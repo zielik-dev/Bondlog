@@ -2,18 +2,18 @@
 @using MudBlazor
 
 <AuthorizeView Roles="Administrator">
-
     <Authorized>
-        <MudMenu Label="Admin Panel" FullWidth="false" ActivationEvent="@MouseEvent.MouseOver" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter">
-            <ActivatorContent>
-                <MudChip Icon="@Icons.Material.Filled.AdminPanelSettings" Color="Color.Primary">Admin Panel</MudChip>
-            </ActivatorContent>
-            <ChildContent>
-                <MudMenuItem Href="/register">Register User</MudMenuItem>
-                <MudMenuItem Href="/users">Users</MudMenuItem>
-                <MudMenuItem Href="/userroles">User Roles</MudMenuItem>
-            </ChildContent>
-        </MudMenu>
+        <div class="admin-panel-container">
+            <MudMenu Label="Admin Panel" FullWidth="false" ActivationEvent="@MouseEvent.MouseOver" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter">
+                <ActivatorContent>
+                    <MudChip Icon="@Icons.Material.Filled.AdminPanelSettings" Color="Color.Primary">Admin Panel</MudChip>
+                </ActivatorContent>
+                <ChildContent>
+                    <MudMenuItem Href="/register">Register User</MudMenuItem>
+                    <MudMenuItem Href="/users">Users</MudMenuItem>
+                    <MudMenuItem Href="/userroles">User Roles</MudMenuItem>
+                </ChildContent>
+            </MudMenu>
+        </div>
     </Authorized>
-
 </AuthorizeView>
