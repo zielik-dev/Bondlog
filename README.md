@@ -9,4 +9,4 @@ Bondlog is a robust UI application designed to streamline the management of non-
 * Business Communication: Bondlog serves as a central hub for communication between team members and stakeholders. Easily collaborate, exchange instructions, and share updates related to non-conforming deliveries within the application.
 
 ### License
-Created by Michal Zielinski for GXO Logistics and Virgin Media O2 warehouse operation.
+Created privately by Michal Zielinski for GXO Logistics and Virgin Media O2 warehouse operation.
