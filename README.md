@@ -8,5 +8,8 @@ Bondlog is a robust UI application designed to streamline the management of non-
 * Efficient Investigation: When discrepancies arise, Bondlog simplifies the process of investigating and resolving issues. You can attach relevant documentation, comments, and notes to each record, providing a comprehensive history for reference.
 * Business Communication: Bondlog serves as a central hub for communication between team members and stakeholders. Easily collaborate, exchange instructions, and share updates related to non-conforming deliveries within the application.
 
+## Tech Stack
+* ASP.NET Core + Blazor WASM
+
 ### License
 Created privately by Michal Zielinski for GXO Logistics and Virgin Media O2 warehouse operation.
