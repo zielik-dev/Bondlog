@@ -12,4 +12,4 @@ Bondlog is a robust UI application designed to streamline the management of non-
 * ASP.NET Core + Blazor WASM
 
 ### License
-Created privately by Michal Zielinski for GXO Logistics and Virgin Media O2 warehouse operation.
+Created by Michal Zielinski for NDC (National Distribution Centre) of UK's mobile netowrk provider.
