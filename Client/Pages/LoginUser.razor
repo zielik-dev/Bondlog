@@ -3,15 +3,16 @@
 @using Blazored.LocalStorage;
 @using Bondlog.Client.Providers;
 @using Bondlog.Client.Services;
+@using Bondlog.Client.Services.Identity;
 @using Bondlog.Shared.Domain.Models;
 @using Microsoft.AspNetCore.Components.Authorization;
 @using Bondlog.Client.Interfaces;
-@inject IJSRuntime js;
-@inject IAuthService authService
-@inject ICryptoService cryptoService
-@inject ILocalStorageService localStorageService;
-@inject NavigationManager navigationManager
-@inject AuthenticationStateProvider authenticationStateProvider;
+@inject IJSRuntime Js;
+@inject ILoginUserService LoginUserService;
+@inject ICryptoService CryptoService;
+@inject ILocalStorageService LocalStorageService;
+@inject NavigationManager NavigationManager;
+@inject AuthenticationStateProvider AuthenticationStateProvider;
 
 <h1>Login</h1>
 
@@ -58,7 +59,7 @@
         var user = (await AuthState).User;
 
         if (user!.Identity!.IsAuthenticated)
-            navigationManager.NavigateTo("/");
+            NavigationManager.NavigateTo("/");
         else
             await base.OnInitializedAsync();
     }
@@ -67,16 +68,12 @@
     {
         ShowErrors = false;
 
-        var result = await authService.LoginUser(loginModel);
+        var result = await LoginUserService.LoginUser(loginModel);
 
         if (result.Token is not null || result.Username is not null || result.UserRole is not null)
         {
-            //await _localStorageService.SetItemAsync("authToken", response!.Token);
-            //((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginModel.Email);
-            //_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", response.Token);
-
-            CryptoResult ecryptedUsername = await cryptoService.EncryptAsync(result.Username);
-            CryptoResult encryptUserRole = await cryptoService.EncryptAsync(result.UserRole);
+            CryptoResult ecryptedUsername = await CryptoService.EncryptAsync(result.Username);
+            CryptoResult encryptUserRole = await CryptoService.EncryptAsync(result.UserRole);
             var newEncryptedUserSession = new UserSessionModel()
                 {
                     Username = ecryptedUsername.Value,
@@ -85,13 +82,13 @@
                     Successful = result.Successful
                 };
 
-            await localStorageService.SetItemAsync("UserData", newEncryptedUserSession);
-            (authenticationStateProvider as CustomAuthenticationStateProvider).NotifyAuthenticationState();
-            navigationManager.NavigateTo("/", true);
+            await LocalStorageService.SetItemAsync("UserData", newEncryptedUserSession);
+            (AuthenticationStateProvider as CustomAuthenticationStateProvider).NotifyAuthenticationState();
+            NavigationManager.NavigateTo("/", true);
         }
         else
         {
-            await js.InvokeVoidAsync("alert", "Error occured");
+            await Js.InvokeVoidAsync("alert", "Error occured");
         }
     }
 }

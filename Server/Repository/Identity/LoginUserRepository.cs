@@ -9,7 +9,6 @@ using Bondlog.Server.Repository.Interfaces;
 
 namespace Bondlog.Server.Repository.Identity
 {
-    //Klasa ostateczna projektu
     public class LoginUserRepository : ILoginUserRepository
     {
         private readonly IConfiguration _configuration;

@@ -1,7 +1,7 @@
 ﻿using Bondlog.Server.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
-namespace Bondlog.Server.Repository.Identity
+namespace Bondlog.Server.Repository.Admin
 {
     public class RemoveRoleRepository : IRemoveRoleRepository
     {
@@ -19,7 +19,7 @@ namespace Bondlog.Server.Repository.Identity
 
             var role = await _roleManager.FindByNameAsync(roleName);
 
-            if(role == null) 
+            if (role == null)
                 return false;
 
             var result = await _roleManager.DeleteAsync(role);

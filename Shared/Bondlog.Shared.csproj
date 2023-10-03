@@ -16,6 +16,5 @@
 
   <ItemGroup>
     <Folder Include="Domain\ViewModel\" />
-    <Folder Include="DbCopy\" />
   </ItemGroup>
 </Project>

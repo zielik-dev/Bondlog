@@ -1,7 +1,7 @@
 ﻿using Bondlog.Server.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
-namespace Bondlog.Server.Repository.Identity
+namespace Bondlog.Server.Repository.Admin
 {
     public class AddRoleRepository : IAddRoleRepository
     {
@@ -20,7 +20,7 @@ namespace Bondlog.Server.Repository.Identity
             if (await _roleManager.RoleExistsAsync(roleName))
                 return false;
 
-            var result = await _roleManager.CreateAsync(new IdentityRole { Name = roleName } );
+            var result = await _roleManager.CreateAsync(new IdentityRole { Name = roleName });
 
             return result.Succeeded;
         }

@@ -1,8 +1,6 @@
-﻿using Bondlog.Server.Infrastructure.Interfaces;
-using Bondlog.Server.Repository.Interfaces;
+﻿using Bondlog.Server.Repository.Interfaces;
 using Bondlog.Shared.Domain.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace Bondlog.Server.Repository.Identity
 {

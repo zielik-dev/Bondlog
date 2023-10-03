@@ -1,3 +1,0 @@
-﻿Defekty:
-1. nie dziala mapowanie Usera i Roli w tabeli AspNetUserRoles
-2. nav bar nie odswieza sie za kazdym razem po zalogowaniu nie wypisuje emaila obok hello - ale dziala za kazdym pozniejszym odswiezeniem calej apki (nie podstron)

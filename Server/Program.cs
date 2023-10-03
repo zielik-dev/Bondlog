@@ -1,10 +1,8 @@
 using Bondlog.Server.Infrastructure;
 using Bondlog.Server.Infrastructure.DbContext;
-using Bondlog.Server.Random;
 using Bondlog.Server.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -21,7 +19,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.InfrastructureDI(builder.Configuration);
 
 //Authentication
-//builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedEmail = false)
 builder.Services
     .AddIdentity<IdentityUser, IdentityRole>(options =>
     {
@@ -53,7 +50,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 //Repository services
 builder.Services.RepositoryDI();
-
 
 var app = builder.Build();
 

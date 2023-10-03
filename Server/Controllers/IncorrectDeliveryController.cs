@@ -1,9 +1,11 @@
 ﻿using Bondlog.Server.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bondlog.Server.Controllers
 {
+    [Authorize(Roles = "Operative, Administrator")]
     [Route("api/[controller]")]
     [ApiController]
     public class IncorrectDeliveryController : ControllerBase
@@ -16,6 +18,6 @@ namespace Bondlog.Server.Controllers
         }
 
         //[HttpGet]
-        //public async
+        //work in progress
     }
 }

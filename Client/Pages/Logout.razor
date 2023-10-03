@@ -1,13 +1,13 @@
 ﻿@page "/logout"
 @using Bondlog.Client.Services;
 @using Bondlog.Client.Interfaces;
-@inject IAuthService AuthService
+@inject ILogoutUserService LogoutUserService
 @inject NavigationManager NavigationManager
 
 @code {
     protected override async Task OnInitializedAsync()
     {
-        await AuthService.LogoutUser();
+        await LogoutUserService.LogoutUser();
         NavigationManager.NavigateTo("/");
     }
 }

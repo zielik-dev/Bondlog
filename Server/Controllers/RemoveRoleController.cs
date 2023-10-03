@@ -1,8 +1,10 @@
-﻿using Bondlog.Server.Repository.Identity;
+﻿using Bondlog.Server.Repository.Admin;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bondlog.Server.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     [Route("api/[controller]")]
     [ApiController]
     public class RemoveRoleController : ControllerBase
@@ -28,6 +30,5 @@ namespace Bondlog.Server.Controllers
                 return RedirectToAction("Role Not Found");
             }
         }
-
     }
 }

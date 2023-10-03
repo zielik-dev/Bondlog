@@ -1,13 +1,12 @@
-﻿using Bondlog.Server.Repository.Identity;
-using Bondlog.Server.Repository.Interfaces;
+﻿using Bondlog.Server.Repository.Interfaces;
 using Bondlog.Shared.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bondlog.Server.Controllers
 {
-    //[Authorize(Roles = "Administrator")]
-    [Route("api/[controller]"), Authorize]
+    [Authorize(Roles = "Administrator")]
+    [Route("api/[controller]")]
     [ApiController]
     public class RegisterUserController : ControllerBase
     {

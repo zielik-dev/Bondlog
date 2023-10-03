@@ -1,6 +1,7 @@
 ﻿using Bondlog.Server.Repository.Admin;
 using Bondlog.Server.Repository.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bondlog.Server.Controllers
@@ -8,19 +9,19 @@ namespace Bondlog.Server.Controllers
     [Authorize(Roles = "Administrator")]
     [Route("api/[controller]")]
     [ApiController]
-    public class RolesController : ControllerBase
+    public class UserRolesController : ControllerBase
     {
-        private readonly IGetRolesRepository _getRolesRepository;
+        private readonly IGetUserRolesRepository _getUserRolesRepository;
 
-        public RolesController(IGetRolesRepository getRolesRepository)
+        public UserRolesController(IGetUserRolesRepository getUserRolesRepository)
         {
-            _getRolesRepository = getRolesRepository;
+            _getUserRolesRepository = getUserRolesRepository;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task <IActionResult> GetUserRoles()
         {
-            var result = await _getRolesRepository.GetRoles();
+            var result = await _getUserRolesRepository.GetUsersWithRoles();
 
             if (result is not null)
             {

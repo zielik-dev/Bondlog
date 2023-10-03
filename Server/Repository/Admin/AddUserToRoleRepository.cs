@@ -1,7 +1,7 @@
 ﻿using Bondlog.Server.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
-namespace Bondlog.Server.Repository.Identity
+namespace Bondlog.Server.Repository.Admin
 {
     public class AddUserToRoleRepository : IAddUserToRoleRepository
     {

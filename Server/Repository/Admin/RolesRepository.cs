@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace Bondlog.Server.Repository.Identity
+namespace Bondlog.Server.Repository.Admin
 {
     public class RolesRepository
     {
@@ -27,21 +27,15 @@ namespace Bondlog.Server.Repository.Identity
 
         public async Task<List<IdentityRole>> GetRolesAsync()
         {
-            // Zweryfikuj, czy istnieje co najmniej jedna rola.
             if (await _roleManager.Roles.AnyAsync())
             {
-                // Pobierz listę ról.
                 var roles = await _roleManager.Roles.ToListAsync();
-
-                // Zwróc listę ról.
                 return roles;
             }
             else
             {
-                // Nie ma żadnych ról. Zwróc pustą listę.
                 return new List<IdentityRole>();
             }
-            
         }
     }
 }

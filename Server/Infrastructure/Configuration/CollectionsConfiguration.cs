@@ -10,6 +10,7 @@ namespace Bondlog.Server.Infrastructure.Configuration
         {
             builder.HasKey(c => c.Id);
             //builder.Property(c => c.Name).HasColumnType("varchar(250)").IsRequired();;
+            //more to build
         }
     }
 }

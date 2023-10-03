@@ -1,0 +1,42 @@
+﻿@page "/roles"
+@using Bondlog.Client.Interfaces;
+@using Microsoft.AspNetCore.Identity;
+@inject NavigationManager NavigationManager;
+@inject IRolesService rolesService;
+
+<h3>Authorisation Roles</h3>
+
+<head>
+    <link href="/css/components/roles.css" rel="stylesheet" />
+</head>
+
+@if (roles == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="custom-data-grid">
+        <MudDataGrid Items="@roles" Filterable="false" SortMode="@SortMode.None" Groupable="false">
+            <Columns>
+                <PropertyColumn Property="x => x.Name" />
+                <TemplateColumn CellClass="d-flex justify-end">
+                    <CellTemplate>
+                        <MudStack Row>
+                            <MudButton Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Primary">Edit</MudButton>
+                        </MudStack>
+                    </CellTemplate>
+                </TemplateColumn>
+            </Columns>
+        </MudDataGrid>
+    </div>
+}
+
+@code {
+    private IEnumerable<IdentityRole> roles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        roles = await rolesService.GetRolesAsync();
+    }
+}

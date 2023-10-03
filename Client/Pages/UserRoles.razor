@@ -1,27 +1,31 @@
 ﻿@page "/userroles"
 @using Bondlog.Client.Interfaces;
-@using Microsoft.AspNetCore.Identity;
-<h3>UserRoles</h3>
+@using Bondlog.Shared.Domain.Models;
+@inject NavigationManager NavigationManager;
+@inject IUserRolesService UserRolesService
 
 <head>
-    <link rel="stylesheet" href="~/components/user-roles.css" />
+    <link href="/css/components/user-roles.css" rel="stylesheet" />
 </head>
 
-@if (roles == null)
+<h3>User Roles</h3>
+
+@if (userRoles == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
     <div class="custom-data-grid">
-        <MudDataGrid Items="@roles" Filterable="false" SortMode="@SortMode.None" Groupable="false">
+        <MudDataGrid Items="@userRoles" Filterable="false" SortMode="@SortMode.None" Groupable="false">
             <Columns>
-                <PropertyColumn Property="x => x.Id" />
-                <PropertyColumn Property="x => x.Name" />
+                <PropertyColumn Property="x => x.UserName" Title="User Name"/>
+                <PropertyColumn Property="x => x.RoleName" Title="Role Name"/>
                 <TemplateColumn CellClass="d-flex justify-end">
                     <CellTemplate>
                         <MudStack Row>
-                            <MudButton Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Primary">Edit</MudButton>
+                         <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="@Color.Primary">Edit</MudButton>
+                         <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="@Color.Error">Delete</MudButton>
                         </MudStack>
                     </CellTemplate>
                 </TemplateColumn>
@@ -31,16 +35,10 @@ else
 }
 
 @code {
-    [Inject]
-    public NavigationManager NavigationManager { get; set; }
-
-    private IEnumerable<IdentityRole> roles;
-
-    [Inject]
-    private IUserRolesService userRolesService { get; set; }
+    private IEnumerable<UserWithRole> userRoles;
 
     protected override async Task OnInitializedAsync()
     {
-        roles = await userRolesService.GetUserRolesAsync();
+        userRoles = await UserRolesService.GetUserRolesAsync();
     }
 }

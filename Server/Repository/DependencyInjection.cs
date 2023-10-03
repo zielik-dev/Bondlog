@@ -8,15 +8,19 @@ namespace Bondlog.Server.Repository
     {
         public static IServiceCollection RepositoryDI(this IServiceCollection services)
         {
-            services.AddScoped<ILoginUserRepository, LoginUserRepository>();
-            services.AddScoped<IAddRoleRepository, AddRoleRepository>();
+            //Admin
             services.AddScoped<IGetRolesRepository, GetRolesRepository>();
-            
-            services.AddScoped<IAddUserToRoleRepository, AddUserToRoleRepository>();
+            services.AddScoped<IGetUserRolesRepository, GetUserRolesRepository>();
+
+            //Identity
+            services.AddScoped<ILoginUserRepository, LoginUserRepository>();
             services.AddScoped<IRegisterUserRepository, RegisterUserRepository>();
+
+            //need sorting
+            services.AddScoped<IAddUserToRoleRepository, AddUserToRoleRepository>();
+            services.AddScoped<IAddRoleRepository, AddRoleRepository>();
             services.AddScoped<IRemoveRoleRepository, RemoveRoleRepository>();
             services.AddScoped<IRemoveUserFromRoleRepository, RemoveUserFromRoleRepository>();
-
 
             return services;
         }

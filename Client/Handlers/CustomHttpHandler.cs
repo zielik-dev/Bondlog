@@ -1,15 +1,18 @@
 ﻿using Blazored.LocalStorage;
 using Bondlog.Shared.Domain.Models;
+using Microsoft.JSInterop;
 
 namespace Bondlog.Client.Handlers
 {
     public class CustomHttpHandler : DelegatingHandler
     {
         private readonly ILocalStorageService localStorageService;
+        private readonly IJSRuntime jsRuntime;
 
         public CustomHttpHandler(ILocalStorageService localStorageService)
         {
             this.localStorageService = localStorageService;
+            this.jsRuntime = jsRuntime;
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -22,6 +25,7 @@ namespace Bondlog.Client.Handlers
             {
                 request.Headers.Add("Authorization", $"Bearer {token.Token}");
             }
+
             return await base.SendAsync(request, cancellationToken);
         }
     }

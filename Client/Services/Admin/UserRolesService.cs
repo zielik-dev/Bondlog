@@ -1,25 +1,22 @@
 ﻿using Bondlog.Client.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using System.Net.Http;
+using Bondlog.Shared.Domain.Models;
 using System.Net.Http.Json;
 
-namespace Bondlog.Client.Services
+namespace Bondlog.Client.Services.Admin
 {
     public class UserRolesService : IUserRolesService
     {
-        private readonly HttpClient _httpClient;
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public UserRolesService(HttpClient httpClient, IHttpClientFactory httpClientFactory)
+        public UserRolesService(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<IEnumerable<IdentityRole>> GetUserRolesAsync()
+        public async Task<IEnumerable<UserWithRole>> GetUserRolesAsync()
         {
-            var httpClientFactory = _httpClientFactory.CreateClient("MyApi");
-            var response = await httpClientFactory.GetFromJsonAsync<IEnumerable<IdentityRole>>("api/roles");
+            var httpClientFactort = _httpClientFactory.CreateClient("MyApi");
+            var response = await httpClientFactort.GetFromJsonAsync<IEnumerable<UserWithRole>>("api/userroles");
             return response;
         }
     }
