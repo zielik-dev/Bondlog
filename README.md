@@ -12,4 +12,4 @@ Bondlog is a robust UI application designed to streamline the management of non-
 * ASP.NET Core + Blazor WASM
 
 ### License
-Created by Michal Zielinski for the use of the National Distribution Centre of the UK's mobile network provider.
+Created privately by Michal Zielinski for the commercial use of the National Distribution Centre of the UK's mobile network provider.
