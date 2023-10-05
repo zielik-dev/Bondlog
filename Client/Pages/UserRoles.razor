@@ -25,7 +25,8 @@ else
                     <CellTemplate>
                         <MudStack Row>
                          <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="@Color.Primary">Edit</MudButton>
-                         <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="@Color.Error">Delete</MudButton>
+                         <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="@Color.Error"
+                                    @* OnClick="DeleteUser(x => x.UserId) *@">Delete</MudButton>
                         </MudStack>
                     </CellTemplate>
                 </TemplateColumn>
@@ -34,11 +35,48 @@ else
     </div>
 }
 
+<MudDialog @ref="deleteDialog" IsOpen="@isDeleteDialogOpen" Title="Confirmation">
+    <Content>
+        Are you sure you want to delete the user?
+    </Content>
+    <Actions>
+        <MudButton Variant="@Variant.Filled" Color="@Color.Error" OnClick="ConfirmDelete">Yes</MudButton>
+        <MudButton Variant="@Variant.Filled" Color="@Color.Default" OnClick="CancelDelete">No</MudButton>
+    </Actions>
+</MudDialog>
+
+
 @code {
     private IEnumerable<UserWithRole> userRoles;
+    private bool isDeleteDialogOpen = false;
+    private UserWithRole userToDelete;
+    MudDialog deleteDialog;
+
 
     protected override async Task OnInitializedAsync()
     {
         userRoles = await UserRolesService.GetUserRolesAsync();
+    }
+
+    private void DeleteUser(UserWithRole user)
+    {
+        userToDelete = user;
+        isDeleteDialogOpen = true;
+    }
+
+    private async Task ConfirmDelete()
+    {
+        if (userToDelete != null)
+        {
+            await UserRolesService.DeleteUser(userToDelete);
+            userToDelete = null;
+        }
+        isDeleteDialogOpen = false;
+    }
+
+    private void CancelDelete()
+    {
+        userToDelete = null;
+        isDeleteDialogOpen = false;
     }
 }

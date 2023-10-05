@@ -7,12 +7,12 @@ namespace Bondlog.Client.Handlers
     public class CustomHttpHandler : DelegatingHandler
     {
         private readonly ILocalStorageService localStorageService;
-        private readonly IJSRuntime jsRuntime;
+        //private readonly IJSRuntime jsRuntime;
 
         public CustomHttpHandler(ILocalStorageService localStorageService)
         {
             this.localStorageService = localStorageService;
-            this.jsRuntime = jsRuntime;
+            //this.jsRuntime = jsRuntime;
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)

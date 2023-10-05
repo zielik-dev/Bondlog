@@ -2,7 +2,7 @@
 @using Bondlog.Client.Interfaces;
 @using Microsoft.AspNetCore.Identity;
 @inject NavigationManager NavigationManager;
-@inject IRolesService rolesService;
+@inject IRolesService RolesService;
 
 <h3>Authorisation Roles</h3>
 
@@ -37,6 +37,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        roles = await rolesService.GetRolesAsync();
+        roles = await RolesService.GetRolesAsync();
     }
 }

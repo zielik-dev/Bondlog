@@ -8,7 +8,6 @@ namespace Bondlog.Client.Providers
 {
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
-        // inject and initialize localstorage service
         private readonly ILocalStorageService localStorageService;
         private readonly ICryptoService cryptoService;
         private ClaimsPrincipal _anonymous = new ClaimsPrincipal(new ClaimsIdentity());
@@ -32,7 +31,6 @@ namespace Bondlog.Client.Providers
             new Claim(ClaimTypes.Role, await cryptoService.DecryptAsync(encryptedUserSession.UserRole!.ToString()))
             }, "JwtAuth"));
 
-            //Call the Utility class and pass in the token to decrypt
             return await Task.FromResult(new AuthenticationState(claimPrincipal));
         }
 

@@ -18,15 +18,21 @@ namespace Bondlog.Server.Repository.Identity
         public async Task<UserSessionModel> RegisterUserAsync(RegisterModel model)
         {
             var newUser = new IdentityUser { UserName = model.Email, Email = model.Email };
-            var result = await _userManager.CreateAsync(newUser, model.Password!);
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            var role = await _roleManager.FindByNameAsync(model.UserRole);
+            
+            var exists = await _userManager.FindByEmailAsync(newUser.Email);
+            if (exists is not null)
+            {
+                return new UserSessionModel { Successful = false, ErrorMessage = "Username Already Exists" };
+            }
 
+            var result = await _userManager.CreateAsync(newUser, model.Password!);
             if (!result.Succeeded)
             {
                 return new UserSessionModel { Successful = false, ErrorMessage = "User Not Created" };
             }
 
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            var role = await _roleManager.FindByNameAsync(model.UserRole);
             await _userManager.AddToRoleAsync(user, role.Name);
 
             UserSessionModel usm = new UserSessionModel()

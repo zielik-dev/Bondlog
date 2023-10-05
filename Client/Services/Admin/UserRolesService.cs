@@ -19,5 +19,10 @@ namespace Bondlog.Client.Services.Admin
             var response = await httpClientFactort.GetFromJsonAsync<IEnumerable<UserWithRole>>("api/userroles");
             return response;
         }
+
+        public async Task DeleteUser(UserWithRole userToDelete)
+        {
+            //coming soon
+        }
     }
 }

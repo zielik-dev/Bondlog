@@ -28,7 +28,7 @@ namespace Bondlog.Server.Controllers
             }
             else
             {
-                return Unauthorized();
+                return Unauthorized(userSession);
             }
         }
     }

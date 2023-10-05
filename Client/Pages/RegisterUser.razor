@@ -2,8 +2,10 @@
 @using Bondlog.Client.Services;
 @using Bondlog.Shared.Domain.Models;
 @using Bondlog.Client.Interfaces;
-@inject IRegisterUserService RegisterUserService
-@inject NavigationManager NavigationManager
+@using Microsoft.AspNetCore.Identity;
+@inject IRegisterUserService RegisterUserService;
+@inject NavigationManager NavigationManager;
+@inject IRolesService RolesService;
 
 <h1>Register</h1>
 
@@ -39,6 +41,12 @@
                 <InputText id="password" type="password" class="form-control" @bind-Value="RegisterModel.ConfirmPassword" />
                 <ValidationMessage For="@(() => RegisterModel.ConfirmPassword)" />
             </div>
+            <div class="form-group">
+                <label for="role">User Role</label>
+                <InputText id="role" class="form-control" @bind-Value="RegisterModel.UserRole" />
+                <ValidationMessage For="@(() => RegisterModel.UserRole)" />
+            </div>
+            <br/>
             <button type="submit" class="btn btn-primary">Submit</button>
         </EditForm>
     </div>
@@ -49,6 +57,12 @@
     private RegisterModel RegisterModel = new RegisterModel();
     private bool ShowErrors;
     private IEnumerable<string>? Errors;
+    private IEnumerable<IdentityRole> roles;
+
+    private async Task OnInitializedAsync()
+    {
+        roles = await RolesService.GetRolesAsync();
+    }
 
     private async Task HandleRegistration()
     {
