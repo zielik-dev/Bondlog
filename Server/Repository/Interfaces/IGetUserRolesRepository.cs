@@ -5,6 +5,6 @@ namespace Bondlog.Server.Repository.Interfaces
 {
     public interface IGetUserRolesRepository
     {
-        public Task<List<UserWithRole>> GetUsersWithRoles();
+        public Task<List<UserAndRoleModel>> GetUsersWithRoles();
     }
 }

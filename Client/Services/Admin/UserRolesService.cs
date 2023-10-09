@@ -13,16 +13,11 @@ namespace Bondlog.Client.Services.Admin
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<IEnumerable<UserWithRole>> GetUserRolesAsync()
+        public async Task<IEnumerable<UserAndRoleModel>> GetUserRolesAsync()
         {
             var httpClientFactort = _httpClientFactory.CreateClient("MyApi");
-            var response = await httpClientFactort.GetFromJsonAsync<IEnumerable<UserWithRole>>("api/userroles");
+            var response = await httpClientFactort.GetFromJsonAsync<IEnumerable<UserAndRoleModel>>("api/userandrole");
             return response;
-        }
-
-        public async Task DeleteUser(UserWithRole userToDelete)
-        {
-            //coming soon
         }
     }
 }

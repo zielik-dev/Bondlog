@@ -3,18 +3,18 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Bondlog.Server.Repository.Admin
 {
-    public class RemoveUserFromRoleRepository : IRemoveUserFromRoleRepository
+    public class RemoveUserAndRoleRepository : IRemoveUserAndRoleRepository
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public RemoveUserFromRoleRepository(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public RemoveUserAndRoleRepository(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
         }
 
-        public async Task<bool> RemoveUserFromRoleAsync(string userId, string roleName)
+        public async Task<bool> RemoveUserAndRoleAsync(string userId, string roleName)
         {
             var user = await _userManager.FindByIdAsync(userId);
 
@@ -26,7 +26,7 @@ namespace Bondlog.Server.Repository.Admin
             if (!roleExists)
                 return false;
 
-            var result = await _userManager.RemoveFromRoleAsync(user, roleName);
+            var result = await _userManager.DeleteAsync(user);
 
             return result.Succeeded;
         }

@@ -13,9 +13,10 @@ namespace Bondlog.Client.Services
             services.AddScoped<ILogoutUserService, LogoutUserService>();
             services.AddScoped<IRegisterUserService, RegisterUserService>();
             
-            //Domain
+            //Admin
             services.AddScoped<IRolesService, RolesService>();
             services.AddScoped<IUserRolesService, UserRolesService>();
+            services.AddScoped<IRemoveUserAndRoleService, RemoveUserAndRoleService>();
 
             return services;
         }

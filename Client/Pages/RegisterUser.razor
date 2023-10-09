@@ -7,6 +7,10 @@
 @inject NavigationManager NavigationManager;
 @inject IRolesService RolesService;
 
+<head>
+    <link href="/css/components/register.css" rel="stylesheet" />
+</head>
+
 <h1>Register</h1>
 
 @if (ShowErrors)
@@ -19,39 +23,40 @@
     </div>
 }
 
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">Please enter your details</h5>
-        <EditForm Model="RegisterModel" OnValidSubmit="HandleRegistration">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
+<div class="custom-data-grid">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Please enter your details</h5>
+            <EditForm Model="RegisterModel" OnValidSubmit="HandleRegistration">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
 
-            <div class="form-group">
-                <label for="email">Email address</label>
-                <InputText id="email" class="form-control" @bind-Value="RegisterModel.Email" />
-                <ValidationMessage For="@(() => RegisterModel.Email)" />
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <InputText id="password" type="password" class="form-control" @bind-Value="RegisterModel.Password" />
-                <ValidationMessage For="@(() => RegisterModel.Password)" />
-            </div>
-            <div class="form-group">
-                <label for="password">Confirm Password</label>
-                <InputText id="password" type="password" class="form-control" @bind-Value="RegisterModel.ConfirmPassword" />
-                <ValidationMessage For="@(() => RegisterModel.ConfirmPassword)" />
-            </div>
-            <div class="form-group">
-                <label for="role">User Role</label>
-                <InputText id="role" class="form-control" @bind-Value="RegisterModel.UserRole" />
-                <ValidationMessage For="@(() => RegisterModel.UserRole)" />
-            </div>
-            <br/>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </EditForm>
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <InputText id="email" class="form-control" @bind-Value="RegisterModel.Email" autocomplete="off" />
+                    <ValidationMessage For="@(() => RegisterModel.Email)" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <InputText id="password" type="password" class="form-control" @bind-Value="RegisterModel.Password" autocomplete="off" />
+                    <ValidationMessage For="@(() => RegisterModel.Password)" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Confirm Password</label>
+                    <InputText id="password" type="password" class="form-control" @bind-Value="RegisterModel.ConfirmPassword" autocomplete="off" />
+                    <ValidationMessage For="@(() => RegisterModel.ConfirmPassword)" />
+                </div>
+                <div class="form-group">
+                    <label for="role">User Role</label>
+                    <InputText id="role" class="form-control" @bind-Value="RegisterModel.UserRole" autocomplete="off" />
+                    <ValidationMessage For="@(() => RegisterModel.UserRole)" />
+                </div>
+                <br/>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </EditForm>
+        </div>
     </div>
 </div>
-
 
 @code {
     private RegisterModel RegisterModel = new RegisterModel();

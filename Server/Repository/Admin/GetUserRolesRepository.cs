@@ -14,9 +14,9 @@ namespace Bondlog.Server.Repository.Admin
             _userManager = userManager;
         }
 
-        public async Task<List<UserWithRole>> GetUsersWithRoles()
+        public async Task<List<UserAndRoleModel>> GetUsersWithRoles()
         {
-            var usersWithRoles = new List<UserWithRole>();
+            var usersWithRoles = new List<UserAndRoleModel>();
 
             var users = await _userManager.Users.ToListAsync();
 
@@ -25,7 +25,7 @@ namespace Bondlog.Server.Repository.Admin
                 var roles = await _userManager.GetRolesAsync(user);
                 var roleName = roles.FirstOrDefault();
 
-                var userWithRole = new UserWithRole
+                var userWithRole = new UserAndRoleModel
                 {
                     UserId = user.Id,
                     UserName = user.UserName,

@@ -5,7 +5,6 @@ namespace Bondlog.Client.Interfaces
 {
     public interface IUserRolesService
     {
-        public Task<IEnumerable<UserWithRole>> GetUserRolesAsync();
-        public Task DeleteUser(UserWithRole userToDelete);
+        public Task<IEnumerable<UserAndRoleModel>> GetUserRolesAsync();
     }
 }

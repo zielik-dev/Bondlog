@@ -1,14 +1,15 @@
-﻿@page "/userroles"
+﻿@page "/userrole"
 @using Bondlog.Client.Interfaces;
 @using Bondlog.Shared.Domain.Models;
 @inject NavigationManager NavigationManager;
 @inject IUserRolesService UserRolesService
+@inject IRemoveUserAndRoleService RemoveUserAndRoleService;
 
 <head>
     <link href="/css/components/user-roles.css" rel="stylesheet" />
 </head>
 
-<h3>User Roles</h3>
+<h3>User And Role</h3>
 
 @if (userRoles == null)
 {
@@ -25,8 +26,7 @@ else
                     <CellTemplate>
                         <MudStack Row>
                          <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="@Color.Primary">Edit</MudButton>
-                         <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="@Color.Error"
-                                    @* OnClick="DeleteUser(x => x.UserId) *@">Delete</MudButton>
+                         <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="@Color.Error" OnClick="@(() => this.DeleteUser(context.Item))">Delete</MudButton>
                         </MudStack>
                     </CellTemplate>
                 </TemplateColumn>
@@ -47,9 +47,9 @@ else
 
 
 @code {
-    private IEnumerable<UserWithRole> userRoles;
+    private IEnumerable<UserAndRoleModel> userRoles;
     private bool isDeleteDialogOpen = false;
-    private UserWithRole userToDelete;
+    private UserAndRoleModel userToDelete;
     MudDialog deleteDialog;
 
 
@@ -58,7 +58,7 @@ else
         userRoles = await UserRolesService.GetUserRolesAsync();
     }
 
-    private void DeleteUser(UserWithRole user)
+    private void DeleteUser(UserAndRoleModel user)
     {
         userToDelete = user;
         isDeleteDialogOpen = true;
@@ -68,7 +68,7 @@ else
     {
         if (userToDelete != null)
         {
-            await UserRolesService.DeleteUser(userToDelete);
+            await RemoveUserAndRoleService.DeleteUser(userToDelete);
             userToDelete = null;
         }
         isDeleteDialogOpen = false;
