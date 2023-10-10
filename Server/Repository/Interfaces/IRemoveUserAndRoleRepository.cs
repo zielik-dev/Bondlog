@@ -2,6 +2,6 @@
 {
     public interface IRemoveUserAndRoleRepository
     {
-        public Task<bool> RemoveUserAndRoleAsync(string userId, string roleName);
+        public Task<bool> RemoveUserAndRoleAsync(string userId);
     }
 }

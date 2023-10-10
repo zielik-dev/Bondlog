@@ -14,12 +14,20 @@ namespace Bondlog.Server.Repository.Admin
             _roleManager = roleManager;
         }
 
-        public async Task<bool> RemoveUserAndRoleAsync(string userId, string roleName)
+        public async Task<bool> RemoveUserAndRoleAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
                 return false;
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            var roleName = "";
+            if (userRoles.Any())
+            {
+                roleName = userRoles.FirstOrDefault();
+            }
 
             var roleExists = await _roleManager.RoleExistsAsync(roleName);
 

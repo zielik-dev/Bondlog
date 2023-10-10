@@ -1,9 +1,5 @@
-﻿using Bondlog.Server.Repository.Admin;
-using Bondlog.Server.Repository.Interfaces;
-using Bondlog.Shared.Domain.Models;
+﻿using Bondlog.Server.Repository.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bondlog.Server.Controllers
@@ -14,18 +10,18 @@ namespace Bondlog.Server.Controllers
     public class UserAndRoleController : ControllerBase
     {
         private readonly IRemoveUserAndRoleRepository _removeUserAndRoleRepository;
-        private readonly IGetUserRolesRepository _getUserRolesRepository;
+        private readonly IGetUsersAndRolesRepository _getUsersAndRolesRepository;
 
-        public UserAndRoleController(IRemoveUserAndRoleRepository removeUserAndRoleRepository, IGetUserRolesRepository getUserRolesRepository)
+        public UserAndRoleController(IRemoveUserAndRoleRepository removeUserAndRoleRepository, IGetUsersAndRolesRepository getUserRolesRepository)
         {
             _removeUserAndRoleRepository = removeUserAndRoleRepository;
-            _getUserRolesRepository = getUserRolesRepository;
+            _getUsersAndRolesRepository = getUserRolesRepository;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUserAndRole()
+        public async Task<IActionResult> GetUsersAndRoles()
         {
-            var result = await _getUserRolesRepository.GetUsersWithRoles();
+            var result = await _getUsersAndRolesRepository.GetUsersAndRoles();
 
             if (result is not null)
             {
@@ -38,11 +34,11 @@ namespace Bondlog.Server.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Remove(string userId, string roleName)
+        public async Task<IActionResult> Remove(string userId)
         {
-            await _removeUserAndRoleRepository.RemoveUserAndRoleAsync(userId, roleName);
+            await _removeUserAndRoleRepository.RemoveUserAndRoleAsync(userId);
 
-            var usersRoles = await _getUserRolesRepository.GetUsersWithRoles();
+            var usersRoles = await _getUsersAndRolesRepository.GetUsersAndRoles();
 
             if (usersRoles is not null)
             {

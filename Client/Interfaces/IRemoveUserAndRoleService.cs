@@ -4,6 +4,6 @@ namespace Bondlog.Client.Interfaces
 {
     public interface IRemoveUserAndRoleService
     {
-        public Task<IEnumerable<UserAndRoleModel>> DeleteUser(UserAndRoleModel userWithRole);
+        public Task<IEnumerable<UserAndRoleModel>> DeleteUser(string userId);
     }
 }

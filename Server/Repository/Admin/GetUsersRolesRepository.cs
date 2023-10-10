@@ -5,16 +5,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bondlog.Server.Repository.Admin
 {
-    public class GetUserRolesRepository : IGetUserRolesRepository
+    public class GetUsersRolesRepository : IGetUsersAndRolesRepository
     {
         private readonly UserManager<IdentityUser> _userManager;
 
-        public GetUserRolesRepository(UserManager<IdentityUser> userManager)
+        public GetUsersRolesRepository(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
         }
 
-        public async Task<List<UserAndRoleModel>> GetUsersWithRoles()
+        public async Task<List<UserAndRoleModel>> GetUsersAndRoles()
         {
             var usersWithRoles = new List<UserAndRoleModel>();
 

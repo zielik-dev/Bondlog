@@ -1,4 +1,5 @@
 ﻿@page "/register"
+@attribute [Authorize(Roles = "Administrator")]
 @using Bondlog.Client.Services;
 @using Bondlog.Shared.Domain.Models;
 @using Bondlog.Client.Interfaces;
@@ -6,12 +7,13 @@
 @inject IRegisterUserService RegisterUserService;
 @inject NavigationManager NavigationManager;
 @inject IRolesService RolesService;
+@inject IJSRuntime JSRuntime
 
 <head>
     <link href="/css/components/register.css" rel="stylesheet" />
 </head>
 
-<h1>Register</h1>
+<h1 class="title">Register New User</h1>
 
 @if (ShowErrors)
 {
@@ -26,37 +28,53 @@
 <div class="custom-data-grid">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Please enter your details</h5>
+            <h5 class="card-title">Please enter details</h5>
             <EditForm Model="RegisterModel" OnValidSubmit="HandleRegistration">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
 
-                <div class="form-group">
-                    <label for="email">Email address</label>
+                <div class="form-group fields">
+                    <label for="email" class="labels">Email address</label>
                     <InputText id="email" class="form-control" @bind-Value="RegisterModel.Email" autocomplete="off" />
                     <ValidationMessage For="@(() => RegisterModel.Email)" />
                 </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
+                <div class="form-group fields">
+                    <label for="password" class="labels">Password</label>
                     <InputText id="password" type="password" class="form-control" @bind-Value="RegisterModel.Password" autocomplete="off" />
                     <ValidationMessage For="@(() => RegisterModel.Password)" />
                 </div>
-                <div class="form-group">
-                    <label for="password">Confirm Password</label>
-                    <InputText id="password" type="password" class="form-control" @bind-Value="RegisterModel.ConfirmPassword" autocomplete="off" />
+                <div class="form-group fields">
+                    <label for="cpassword" class="labels">Confirm Password</label>
+                    <InputText id="cpassword" type="password" class="form-control" @bind-Value="RegisterModel.ConfirmPassword" autocomplete="off" />
                     <ValidationMessage For="@(() => RegisterModel.ConfirmPassword)" />
                 </div>
-                <div class="form-group">
-                    <label for="role">User Role</label>
-                    <InputText id="role" class="form-control" @bind-Value="RegisterModel.UserRole" autocomplete="off" />
+
+                <div class="form-group fields">
+                    <label for="role" class="labels">User Role</label>
+                    @if (roles != null)
+                    {
+                        <InputSelect id="role" class="form-control" @bind-Value="RegisterModel.UserRole">
+                            @foreach (var role in roles)
+                            {
+                                <option value="@role.Name">@role.Name</option>
+                            }
+                        </InputSelect>
+                    }
+                    <i class="dropdown-icon fas fa-caret-down"></i>
                     <ValidationMessage For="@(() => RegisterModel.UserRole)" />
                 </div>
-                <br/>
-                <button type="submit" class="btn btn-primary">Submit</button>
+
+                <button type="submit" class="btn btn-primary submit">Submit</button>
             </EditForm>
         </div>
     </div>
 </div>
+
+<script>
+    window.showPopup = (message) => {
+        DotNet.invokeMethodAsync('alert', 'ShowPopup', message);
+    };
+</script>
 
 @code {
     private RegisterModel RegisterModel = new RegisterModel();
@@ -64,8 +82,9 @@
     private IEnumerable<string>? Errors;
     private IEnumerable<IdentityRole> roles;
 
-    private async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
+        Console.WriteLine("OnInitializedAsync check point");
         roles = await RolesService.GetRolesAsync();
     }
 
@@ -77,12 +96,23 @@
 
         if(result.Successful)
         {
-            NavigationManager.NavigateTo("/login");
+            await JSRuntime.InvokeVoidAsync("alert", "User has been registered");
+            ClearEditForm();
         }
         else
         {
-            // Errors = result.Errors;
             ShowErrors = true;
         }
+    }
+
+    private void ClearEditForm()
+    {
+        RegisterModel = new RegisterModel
+            {
+                Email = string.Empty,
+                Password = string.Empty,
+                ConfirmPassword = string.Empty,
+                UserRole = string.Empty
+            };
     }
 }

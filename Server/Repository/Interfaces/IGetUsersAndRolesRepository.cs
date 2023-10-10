@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Bondlog.Server.Repository.Interfaces
 {
-    public interface IGetUserRolesRepository
+    public interface IGetUsersAndRolesRepository
     {
-        public Task<List<UserAndRoleModel>> GetUsersWithRoles();
+        public Task<List<UserAndRoleModel>> GetUsersAndRoles();
     }
 }
