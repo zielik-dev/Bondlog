@@ -11,13 +11,33 @@ namespace Bondlog.Server.Controllers
     {
         private readonly IRemoveUserAndRoleRepository _removeUserAndRoleRepository;
         private readonly IGetUsersAndRolesRepository _getUsersAndRolesRepository;
+        private readonly IGetUserAndRoleRepository _getUserAndRoleRepository;
 
-        public UserAndRoleController(IRemoveUserAndRoleRepository removeUserAndRoleRepository, IGetUsersAndRolesRepository getUserRolesRepository)
+        public UserAndRoleController(IRemoveUserAndRoleRepository removeUserAndRoleRepository, 
+                                     IGetUsersAndRolesRepository getUserRolesRepository,
+                                     IGetUserAndRoleRepository getUserAndRoleRepository)
         {
-            _removeUserAndRoleRepository = removeUserAndRoleRepository;
+            _getUserAndRoleRepository = getUserAndRoleRepository;
             _getUsersAndRolesRepository = getUserRolesRepository;
+            _removeUserAndRoleRepository = removeUserAndRoleRepository;
         }
 
+        //[HttpGet("userandrole/{userId}")]
+        //public async Task<IActionResult> GetUserAndRole(string userId)
+        //{
+        //    var result = await _getUserAndRoleRepository.GetUserAndRoleByIdAsync(userId);
+
+        //    if (result is not null)
+        //    {
+        //        return Ok(result);
+        //    }
+        //    else
+        //    {
+        //        return BadRequest(); //to be improved
+        //    }
+        //}
+
+        //[HttpGet("userandrole")]
         [HttpGet]
         public async Task<IActionResult> GetUsersAndRoles()
         {
@@ -33,10 +53,11 @@ namespace Bondlog.Server.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{userId}")]
         public async Task<IActionResult> Remove(string userId)
         {
             await _removeUserAndRoleRepository.RemoveUserAndRoleAsync(userId);
+            //dodac resultat jesli
 
             var usersRoles = await _getUsersAndRolesRepository.GetUsersAndRoles();
 

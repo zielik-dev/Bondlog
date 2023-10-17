@@ -1,4 +1,4 @@
-﻿using Bondlog.Client.Interfaces;
+﻿using Bondlog.Client.Services.Interfaces;
 using Bondlog.Shared.Domain.Models;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -16,8 +16,9 @@ namespace Bondlog.Client.Services.Admin
         public async Task<IEnumerable<UserAndRoleModel>> DeleteUser(string userId)
         {
             var httpClientFactory = _httpClientFactory.CreateClient("MyApi");
-            //var response = await httpClientFactory.DeleteFromJsonAsync<IEnumerable<UserAndRoleModel>>($"api/userandrole/{userWithRole.UserId}");
-            var response = await httpClientFactory.DeleteFromJsonAsync<IEnumerable<UserAndRoleModel>>($"api/userandrole/{userId}");
+            //var response = await httpClientFactory.DeleteFromJsonAsync<IEnumerable<UserAndRoleModel>>($"api/userandrole/{userId}"); //? a moze jako parametr a w kontrolerze [FromBody]
+            var response = await httpClientFactory.DeleteFromJsonAsync<IEnumerable<UserAndRoleModel>>("api/userandrole/" + userId);
+
 
             if (response.Any())
             {

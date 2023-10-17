@@ -1,4 +1,4 @@
-﻿using Bondlog.Client.Interfaces;
+﻿using Bondlog.Client.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System.Net.Http.Json;
 

@@ -1,4 +1,4 @@
-﻿using Bondlog.Client.Interfaces;
+﻿using Bondlog.Client.Services.Interfaces;
 using Bondlog.Shared.Domain.Models;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -8,12 +8,10 @@ namespace Bondlog.Client.Services.Identity
 {
     public class RegisterUserService : IRegisterUserService
     {
-        //private readonly HttpClient _httpClient;
         private readonly IHttpClientFactory _httpClientFactory;
 
         public RegisterUserService(HttpClient httpClient, IHttpClientFactory httpClientFactory)
         {
-            //_httpClient = httpClient;
             _httpClientFactory = httpClientFactory;
         }
 

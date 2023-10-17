@@ -1,8 +1,8 @@
-﻿@page "/userrole"
-@using Bondlog.Client.Interfaces;
+﻿@page "/usersandroles"
 @using Bondlog.Shared.Domain.Models;
+@using Bondlog.Client.Services.Interfaces;
 @inject NavigationManager NavigationManager;
-@inject IUserRolesService UserRolesService
+@inject IUsersAndRolesService UsersAndRolesService
 @inject IRemoveUserAndRoleService RemoveUserAndRoleService;
 
 <head>
@@ -25,7 +25,7 @@ else
                 <TemplateColumn CellClass="d-flex justify-end">
                     <CellTemplate>
                         <MudStack Row>
-                            <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="@Color.Primary">Edit</MudButton>
+                            <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="@Color.Primary" OnClick="() => EditUserAndRole(context.Item.UserId)">Edit</MudButton>
                             <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="@Color.Error" OnClick="() => DeleteUser(context.Item.UserId)">Delete</MudButton>
                         </MudStack>
                     </CellTemplate>
@@ -55,13 +55,15 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        userRoles = await UserRolesService.GetUserRolesAsync();
+        userRoles = await UsersAndRolesService.GetUsersAndRolesAsync();
     }
 
-    private void DeleteUser(string userId)
+    private async void DeleteUser(string userId)
     {
-        userToDelete = userId;
-        isDeleteDialogOpen = true;
+        await RemoveUserAndRoleService.DeleteUser(userId);
+
+        // userToDelete = userId;
+        // isDeleteDialogOpen = true;
     }
 
     private async Task ConfirmDelete()
@@ -72,7 +74,7 @@ else
             userToDelete = null;
             isDeleteDialogOpen = false;
 
-            userRoles = await UserRolesService.GetUserRolesAsync();
+            userRoles = await UsersAndRolesService.GetUsersAndRolesAsync();
         }
     }
 
@@ -82,4 +84,9 @@ else
         isDeleteDialogOpen = false;
     }
 
+    private void EditUserAndRole(string userId)
+    {
+        var editUrl = $"edituserandrole/{userId}";
+        NavigationManager.NavigateTo(editUrl);
+    }
 }

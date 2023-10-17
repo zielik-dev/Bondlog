@@ -1,6 +1,6 @@
 ﻿using Bondlog.Shared.Domain.Models;
 
-namespace Bondlog.Client.Interfaces
+namespace Bondlog.Client.Services.Interfaces
 {
     public interface IRegisterUserService
     {

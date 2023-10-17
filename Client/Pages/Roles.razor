@@ -1,8 +1,11 @@
 ﻿@page "/roles"
-@using Bondlog.Client.Interfaces;
+@using Bondlog.Client.Pages.Dialogs;
+@using Bondlog.Client.Services.Interfaces;
 @using Microsoft.AspNetCore.Identity;
+@inject IDialogService DialogService
 @inject NavigationManager NavigationManager;
 @inject IRolesService RolesService;
+
 
 <h3>Authorisation Roles</h3>
 
@@ -17,13 +20,17 @@
 else
 {
     <div class="custom-data-grid">
+
+        <MudButton Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Primary" OnClick="() => OpenAddNewRoleDialog()">Add New Role</MudButton>
+        <p/>
         <MudDataGrid Items="@roles" Filterable="false" SortMode="@SortMode.None" Groupable="false">
             <Columns>
                 <PropertyColumn Property="x => x.Name" />
                 <TemplateColumn CellClass="d-flex justify-end">
                     <CellTemplate>
                         <MudStack Row>
-                            <MudButton Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Primary">Edit</MudButton>
+                         <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="@Color.Primary">Edit</MudButton>
+                         <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="@Color.Error" OnClick="() => OpenDeleteRoleDialog(context.Item.Name)">Delete</MudButton>
                         </MudStack>
                     </CellTemplate>
                 </TemplateColumn>
@@ -32,11 +39,34 @@ else
     </div>
 }
 
+<RemoveRoleDialog OnRolesUpdated="UpdateRoles" />
+
 @code {
+    private MudDialog addRoleDialog;
     private IEnumerable<IdentityRole> roles;
+    private string role;
 
     protected override async Task OnInitializedAsync()
     {
         roles = await RolesService.GetRolesAsync();
+    }
+
+    private void OpenAddNewRoleDialog()
+    {
+        DialogOptions closeOnEscapeKey = new DialogOptions() { CloseOnEscapeKey = true };
+        DialogService.Show<AddRoleDialog>("Add New Role", closeOnEscapeKey);
+    }
+
+    private async void OpenDeleteRoleDialog(string roleName)
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true };
+        var parameters = new DialogParameters { { "roleName", roleName } };
+        DialogService.Show<RemoveRoleDialog>("Are you sure with the delete?", parameters, options);
+    }
+
+    private async void UpdateRoles(IEnumerable<IdentityRole> newRoles)
+    {
+        roles = newRoles;
+        StateHasChanged();
     }
 }

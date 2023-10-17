@@ -1,2 +1,1 @@
-﻿I need to decide if I will pass the UserId only as string or UserId with RoleName as UserAndRoleModel obj from page all way down to repository class 
-or just simply userId and will get the user role name in repository itself
+﻿stop: przekazanie zawartosci zwrotu z api z kompnentu RemoveRoleDialog do komponentu macierzystego Roles.razor...

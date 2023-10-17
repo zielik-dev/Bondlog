@@ -1,6 +1,6 @@
-﻿using Bondlog.Client.Interfaces;
-using Bondlog.Client.Services.Admin;
+﻿using Bondlog.Client.Services.Admin;
 using Bondlog.Client.Services.Identity;
+using Bondlog.Client.Services.Interfaces;
 
 namespace Bondlog.Client.Services
 {
@@ -14,9 +14,12 @@ namespace Bondlog.Client.Services
             services.AddScoped<IRegisterUserService, RegisterUserService>();
             
             //Admin
-            services.AddScoped<IRolesService, RolesService>();
-            services.AddScoped<IUserRolesService, UserRolesService>();
+            services.AddScoped<IAddRoleService, AddRoleService>();
+            services.AddScoped<IRemoveRoleService, RemoveRoleService>();
             services.AddScoped<IRemoveUserAndRoleService, RemoveUserAndRoleService>();
+            services.AddScoped<IRolesService, RolesService>();
+            services.AddScoped<IUserAndRoleService, UserAndRoleService>();
+            services.AddScoped<IUsersAndRolesService, UsersAndRolesService>();
 
             return services;
         }

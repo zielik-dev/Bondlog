@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Bondlog.Client.Interfaces
+namespace Bondlog.Client.Services.Interfaces
 {
     public interface IRolesService
     {

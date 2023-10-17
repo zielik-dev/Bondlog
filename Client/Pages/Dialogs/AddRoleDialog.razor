@@ -1,0 +1,28 @@
+﻿@using Bondlog.Client.Services.Interfaces;
+@inject IAddRoleService AddRoleService;
+
+<MudDialog>
+    <DialogContent>
+        <MudTextField @bind-Value="roleName" T="string" Label="Enter new role name"></MudTextField>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+@code {
+    [CascadingParameter] 
+    MudDialogInstance MudDialog { get; set; }
+    
+    private string roleName;
+
+    async Task Submit()
+    {
+        await AddRoleService.AddRolePost(roleName);
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}

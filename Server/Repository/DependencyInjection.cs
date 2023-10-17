@@ -10,6 +10,7 @@ namespace Bondlog.Server.Repository
         {
             //Admin
             services.AddScoped<IGetRolesRepository, GetRolesRepository>();
+            services.AddScoped<IGetUserAndRoleRepository, GetUserAndRoleRepository>();
             services.AddScoped<IGetUsersAndRolesRepository, GetUsersRolesRepository>();
             services.AddScoped<IRemoveUserAndRoleRepository, RemoveUserAndRoleRepository>();
             services.AddScoped<IRemoveUserFromRoleRepository, RemoveUserFromRoleRepository>();

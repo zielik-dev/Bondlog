@@ -2,8 +2,8 @@
 @attribute [Authorize(Roles = "Administrator")]
 @using Bondlog.Client.Services;
 @using Bondlog.Shared.Domain.Models;
-@using Bondlog.Client.Interfaces;
 @using Microsoft.AspNetCore.Identity;
+@using Bondlog.Client.Services.Interfaces;
 @inject IRegisterUserService RegisterUserService;
 @inject NavigationManager NavigationManager;
 @inject IRolesService RolesService;

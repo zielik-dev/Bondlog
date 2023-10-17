@@ -1,6 +1,6 @@
 ﻿using Blazored.LocalStorage;
-using Bondlog.Client.Interfaces;
 using Bondlog.Client.Providers;
+using Bondlog.Client.Services.Interfaces;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Bondlog.Client.Services
