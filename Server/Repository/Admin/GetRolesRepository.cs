@@ -13,6 +13,6 @@ namespace Bondlog.Server.Repository.Admin
             _roleManager = roleManager;
         }
 
-        public async Task<IEnumerable<IdentityRole>> GetRoles() => await _roleManager.Roles.ToListAsync();
+        public async Task<IEnumerable<IdentityRole>> GetRolesAsync() => await _roleManager.Roles.ToListAsync();
     }
 }

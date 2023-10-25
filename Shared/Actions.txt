@@ -1,1 +1,6 @@
-﻿stop: przekazanie zawartosci zwrotu z api z kompnentu RemoveRoleDialog do komponentu macierzystego Roles.razor...
+﻿stop: niepotrafilem przekazac zawartosci result.Data do obiektu List<IdentityRole> roles
+start: zamienic InputDialog na RemoveUserRoleDialog
+
+https://codewithmukesh.com/blog/blazor-crud-using-mudblazor/
+
+https://try.mudblazor.com/snippet/wOwRuQvUyTIflERS

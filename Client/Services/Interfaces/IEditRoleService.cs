@@ -2,8 +2,8 @@
 
 namespace Bondlog.Client.Services.Interfaces
 {
-    public interface IRolesService
+    public interface IEditRoleService
     {
-        public Task<IEnumerable<IdentityRole>> GetRolesAsync();
+        public Task<bool> EditRoleAsync(IdentityRole model);
     }
 }

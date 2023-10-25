@@ -1,0 +1,36 @@
+﻿@using Bondlog.Client.Services.Interfaces;
+@using Microsoft.AspNetCore.Identity;
+@inject IEditRoleService EditRoleService
+
+<MudDialog>
+    <DialogContent>
+        <MudTextField @bind-Value="roleModel.Name" T="string" Label="Enter new role name"></MudTextField>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Submit</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public IdentityRole roleModel { get; set; }
+
+    private async Task Submit()
+    {
+        bool success = await EditRoleService.EditRoleAsync(roleModel);
+
+        if (success)
+        {
+            MudDialog.Close(DialogResult.Ok(success));
+        }
+        else
+        {
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}

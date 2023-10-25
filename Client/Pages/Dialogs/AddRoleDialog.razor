@@ -7,7 +7,7 @@
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Submit</MudButton>
     </DialogActions>
 </MudDialog>
 
@@ -16,12 +16,14 @@
     [CascadingParameter] 
     MudDialogInstance MudDialog { get; set; }
     
-    private string roleName;
+    [Parameter]
+    public string roleName { get; set; }
+    //private string roleName;
 
-    async Task Submit()
+    private async Task Submit()
     {
-        await AddRoleService.AddRolePost(roleName);
-        MudDialog.Close(DialogResult.Ok(true));
+        var response = await AddRoleService.AddRoleAsync(roleName);
+        MudDialog.Close(DialogResult.Ok(response));
     }
 
     void Cancel() => MudDialog.Cancel();

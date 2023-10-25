@@ -1,0 +1,28 @@
+﻿@using Bondlog.Client.Pages.Dialogs;
+
+<MudGrid>
+    <MudItem sm="12">
+        <MudButton OnClick="@this.Prompt" Color="Color.Default">Prompt</MudButton>
+        <MudText>Input: @this.input</MudText>
+    </MudItem>
+</MudGrid>
+
+@code {
+    private string input = string.Empty;
+
+    [Inject]
+    private IDialogService DialogService { get; set; } = default!;
+
+    private async Task Prompt()
+    {
+        var options = new DialogOptions
+            {
+                CloseButton = true,
+                DisableBackdropClick = false,
+                MaxWidth = MaxWidth.Small
+            };
+
+        var result = await this.DialogService.Show<InputDialog>(string.Empty, new DialogParameters(), options).Result;
+        this.input = result.Data as string ?? string.Empty;
+    }
+}

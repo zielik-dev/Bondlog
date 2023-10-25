@@ -2,8 +2,8 @@
 
 namespace Bondlog.Client.Services.Interfaces
 {
-    public interface IRemoveRoleService
+    public interface IGetRolesService
     {
-        public Task<bool> DeleteRoleAsync(string roleName);
+        public Task<IEnumerable<IdentityRole>> GetRolesAsync();
     }
 }

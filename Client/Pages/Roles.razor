@@ -4,8 +4,8 @@
 @using Microsoft.AspNetCore.Identity;
 @inject IDialogService DialogService
 @inject NavigationManager NavigationManager;
-@inject IRolesService RolesService;
-
+@inject IGetRolesService RolesService;
+@inject IRemoveRoleService RemoveRoleService;
 
 <h3>Authorisation Roles</h3>
 
@@ -20,8 +20,8 @@
 else
 {
     <div class="custom-data-grid">
-
-        <MudButton Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Primary" OnClick="() => OpenAddNewRoleDialog()">Add New Role</MudButton>
+        <p/>
+        <MudButton Size="@Size.Small" AutoRefresh="true" Variant="@Variant.Filled" Color="@Color.Primary" OnClick="() => OpenAddNewRoleDialog()">Add New Role</MudButton>
         <p/>
         <MudDataGrid Items="@roles" Filterable="false" SortMode="@SortMode.None" Groupable="false">
             <Columns>
@@ -29,44 +29,72 @@ else
                 <TemplateColumn CellClass="d-flex justify-end">
                     <CellTemplate>
                         <MudStack Row>
-                         <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="@Color.Primary">Edit</MudButton>
+                         <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="@Color.Primary" OnClick="() => OpenEditRoleDialog(context.Item)">Edit</MudButton>
                          <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="@Color.Error" OnClick="() => OpenDeleteRoleDialog(context.Item.Name)">Delete</MudButton>
                         </MudStack>
                     </CellTemplate>
                 </TemplateColumn>
             </Columns>
         </MudDataGrid>
+
     </div>
 }
 
-<RemoveRoleDialog OnRolesUpdated="UpdateRoles" />
-
 @code {
-    private MudDialog addRoleDialog;
     private IEnumerable<IdentityRole> roles;
-    private string role;
 
     protected override async Task OnInitializedAsync()
     {
-        roles = await RolesService.GetRolesAsync();
+        this.roles = await GetRolesAsync();
     }
 
-    private void OpenAddNewRoleDialog()
+    private async Task OpenAddNewRoleDialog()
     {
-        DialogOptions closeOnEscapeKey = new DialogOptions() { CloseOnEscapeKey = true };
-        DialogService.Show<AddRoleDialog>("Add New Role", closeOnEscapeKey);
+        var options = new DialogOptions
+            {
+                CloseButton = true,
+                DisableBackdropClick = false,
+                MaxWidth = MaxWidth.Small
+            };
+        var result = await this.DialogService.Show<AddRoleDialog>("Add New Role", options).Result;
+
+        if (!result.Cancelled)
+            this.roles = await GetRolesAsync();
     }
 
-    private async void OpenDeleteRoleDialog(string roleName)
+    private async Task OpenEditRoleDialog(IdentityRole model)
     {
-        var options = new DialogOptions { CloseOnEscapeKey = true };
+        var options = new DialogOptions
+            {
+                CloseButton = true,
+                DisableBackdropClick = false,
+                MaxWidth = MaxWidth.Small
+            };
+        var parameters = new DialogParameters { { "roleModel", model } };
+        var result = await this.DialogService.Show<EditRoleDialog>(string.Empty, parameters, options).Result;
+
+        if (!result.Cancelled)
+            this.roles = await GetRolesAsync();
+    }
+
+    private async Task OpenDeleteRoleDialog(string roleName)
+    {
+        var options = new DialogOptions
+            {
+                CloseButton = true,
+                DisableBackdropClick = false,
+                MaxWidth = MaxWidth.Small
+            };
         var parameters = new DialogParameters { { "roleName", roleName } };
-        DialogService.Show<RemoveRoleDialog>("Are you sure with the delete?", parameters, options);
+        var result = await this.DialogService.Show<RemoveRoleDialog>(string.Empty, parameters, options).Result;
+
+        if (!result.Cancelled)
+            this.roles = await GetRolesAsync();
     }
 
-    private async void UpdateRoles(IEnumerable<IdentityRole> newRoles)
+    private async Task<IEnumerable<IdentityRole>> GetRolesAsync()
     {
-        roles = newRoles;
-        StateHasChanged();
+        var roles = await RolesService.GetRolesAsync();
+        return roles.OrderBy(r => r.Name);
     }
 }

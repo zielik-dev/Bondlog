@@ -1,6 +1,7 @@
 ﻿using Bondlog.Server.Repository.Admin;
 using Bondlog.Server.Repository.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bondlog.Server.Controllers
@@ -13,18 +14,22 @@ namespace Bondlog.Server.Controllers
         private readonly IGetRolesRepository _getRolesRepository;
         private readonly IAddRoleRepository _addRoleRepository;
         private readonly IRemoveRoleRepository _removeRoleRepository;
+        private readonly IUpdateRoleRepository _updateRoleRepository;
 
-        public RolesController(IGetRolesRepository getRolesRepository, IAddRoleRepository addRoleRepository, IRemoveRoleRepository removeRoleRepository)
+        public RolesController(IGetRolesRepository getRolesRepository, IAddRoleRepository addRoleRepository, IRemoveRoleRepository removeRoleRepository, IUpdateRoleRepository updateRoleRepository)
         {
             _getRolesRepository = getRolesRepository;
             _addRoleRepository = addRoleRepository;
             _removeRoleRepository = removeRoleRepository;
+            _updateRoleRepository = updateRoleRepository;
+            _updateRoleRepository = updateRoleRepository;
+
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetRolesAsync()
         {
-            var result = await _getRolesRepository.GetRoles();
+            var result = await _getRolesRepository.GetRolesAsync();
 
             if (result is not null)
             {
@@ -37,11 +42,11 @@ namespace Bondlog.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddRole([FromBody] string roleName)
+        public async Task<IActionResult> AddRoleAsync([FromBody] string roleName)
         {
             await _addRoleRepository.AddRoleAsync(roleName);
 
-            var result = await _getRolesRepository.GetRoles();
+            var result = await _getRolesRepository.GetRolesAsync();  //do likwidacji, rezygnacja z pomyslu
 
             if (result is not null)
             {
@@ -53,20 +58,40 @@ namespace Bondlog.Server.Controllers
             }
         }
 
-        [HttpDelete("{roleName}")]
-        public async Task<IActionResult> Remove(string roleName)
+        [HttpPut]
+        public async Task<IActionResult> UpdateRole([FromBody] IdentityRole roleName)
         {
-            await _removeRoleRepository.RemoveRoleAsync(roleName);
+            var result = await _updateRoleRepository.UpdateRoleAsync(roleName);
 
-            var roles = await _getRolesRepository.GetRoles();
-
-            if (roles is not null)
+            if (result)
             {
-                return Ok(roles);
+                return Ok();
             }
             else
             {
-                return BadRequest(); //to be improved
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("{roleName}")]
+        public async Task<IActionResult> RemoveAsync(string roleName)
+        {
+            try
+            {
+                bool roleDeleted = await _removeRoleRepository.RemoveRoleAsync(roleName);
+
+                if (roleDeleted)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound("Role not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
             }
         }
     }

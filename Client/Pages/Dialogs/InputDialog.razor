@@ -1,0 +1,53 @@
+﻿@using Bondlog.Client.Services;
+@using Bondlog.Client.Services.Interfaces;
+@using Microsoft.AspNetCore.Identity;
+@inject IGetRolesService RolesService;
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">Press enter</MudText>
+    </TitleContent>
+
+    <DialogActions>
+        <MudButton OnClick="@this.OK" Size="@Size.Small">OK</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    private string input = string.Empty;
+
+    // List<IdentityRole> roles = new List<IdentityRole>()
+    // {
+    //     new IdentityRole() { Id = "01", Name = "Admin" },
+    //     new IdentityRole() { Id = "02", Name = "Operative" },
+    //     new IdentityRole() { Id = "03", Name = "Dupa" }
+    // };
+
+    [CascadingParameter]
+    private MudDialogInstance MudDialog { get; set; } = default!;
+
+    //private void OK()
+    private async void OK()
+    {
+        IEnumerable<IdentityRole> updatedRoles = await RolesService.GetRolesAsync();
+        var roles = GetRoles(updatedRoles);
+        this.MudDialog.Close(DialogResult.Ok(roles));
+        // this.MudDialog.Close(DialogResult.Ok(this.roles));
+    }
+
+    private async Task<List<IdentityRole>> GetRoles(IEnumerable<IdentityRole> updatedRoles)
+    {
+        List<IdentityRole> roles = new();
+
+        foreach (var item in updatedRoles)
+        {
+            roles.Add(new IdentityRole
+                {
+                    Id = item.Id,
+                    Name = item.Name
+                });
+        }
+
+        return roles;
+    }
+}

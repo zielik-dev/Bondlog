@@ -4,11 +4,11 @@ using System.Net.Http.Json;
 
 namespace Bondlog.Client.Services
 {
-    public class RolesService : IRolesService
+    public class GetRolesService : IGetRolesService
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public RolesService(IHttpClientFactory httpClientFactory)
+        public GetRolesService(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }

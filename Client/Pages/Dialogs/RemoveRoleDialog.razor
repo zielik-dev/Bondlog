@@ -1,8 +1,10 @@
 ﻿@using Bondlog.Client.Services.Interfaces;
-@using Microsoft.AspNetCore.Identity;
 @inject IRemoveRoleService RemoveRoleService;
 
 <MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">Are you sure with the delete?</MudText>
+    </TitleContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
         <MudButton Color="Color.Primary" OnClick="Submit">Yes</MudButton>
@@ -16,15 +18,11 @@
     [Parameter]
     public string roleName { get; set; }
 
-    [Parameter]
-    public EventCallback<IEnumerable<IdentityRole>> OnRolesUpdated { get; set; }
-
-    async Task Submit()
+    private async Task Submit()
     {
-        var roles = await RemoveRoleService.DeleteRoleAsync(roleName);
-        await OnRolesUpdated.InvokeAsync(roles);
-        MudDialog.Close(DialogResult.Ok(true));
+        var response = await RemoveRoleService.DeleteRoleAsync(roleName);
+        MudDialog.Close(DialogResult.Ok(response));
     }
 
-    void Cancel() => MudDialog.Cancel();
+    private void Cancel() => MudDialog.Cancel();
 }
