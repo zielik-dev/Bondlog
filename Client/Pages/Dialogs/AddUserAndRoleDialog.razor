@@ -1,0 +1,56 @@
+﻿@using Bondlog.Client.Services.Interfaces;
+@using Bondlog.Shared.Domain.Models;
+@using Microsoft.AspNetCore.Identity;
+@inject IGetRolesService RolesService;
+@inject IAddUserAndRoleService AddUserAndRoleService;
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="Model">
+            <MudTextField @bind-Value="Model.UserName" T="string" Label="Enter new username"></MudTextField>
+            @if (roles != null)
+            {
+                <MudSelect id="role" T="string" Label="Select role" AnchorOrigin="Origin.BottomCenter" @bind-Value="Model.RoleName">
+                    @foreach (var role in roles)
+                    {
+                        <MudSelectItem Value="@role.Name">@role.Name</MudSelectItem>
+                    }
+                </MudSelect>
+            }
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Submit</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public string userName { get; set; }
+
+    private IEnumerable<IdentityRole> roles;
+    private UserAndRoleModel Model = new UserAndRoleModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        roles = await GetRolesAsync();
+    }
+
+    private async Task Submit()
+    {
+        var response = await AddUserAndRoleService.AddUserAndRoleAsync(Model);
+        MudDialog.Close(DialogResult.Ok(response));
+    }
+
+    void Cancel() => MudDialog.Cancel();
+
+    private async Task<IEnumerable<IdentityRole>> GetRolesAsync()
+    {
+        roles = await RolesService.GetRolesAsync();
+        return roles.OrderBy(r => r.Name);
+    }
+}

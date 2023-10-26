@@ -15,12 +15,13 @@ namespace Bondlog.Client.Services
             
             //Admin
             services.AddScoped<IAddRoleService, AddRoleService>();
+            services.AddScoped<IAddUserAndRoleService, AddUserAndRoleService>();
             services.AddScoped<IEditRoleService, EditRoleService>();
             services.AddScoped<IRemoveRoleService, RemoveRoleService>();
             services.AddScoped<IRemoveUserAndRoleService, RemoveUserAndRoleService>();
             services.AddScoped<IGetRolesService, GetRolesService>();
-            services.AddScoped<IUserAndRoleService, UserAndRoleService>();
-            services.AddScoped<IUsersAndRolesService, UsersAndRolesService>();
+            services.AddScoped<IGetUserAndRoleService, GetUserAndRoleService>();
+            services.AddScoped<IGetUsersAndRolesService, GetUsersAndRolesService>();
 
             return services;
         }

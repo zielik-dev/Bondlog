@@ -2,7 +2,7 @@
 @using Bondlog.Shared.Domain.Models;
 @using Bondlog.Shared.Domain.Models;
 @using Bondlog.Client.Services.Interfaces;
-@inject IUserAndRoleService UserAndRoleService;
+@inject IGetUserAndRoleService GetUserAndRoleService;
 
 <h3>EditUserAndRole</h3>
 
@@ -35,7 +35,7 @@ else
     {
         if (!string.IsNullOrEmpty(userId))
         {
-            userAndRoleModel = await UserAndRoleService.GetUserAndRoleByIdAsync(userId);
+            userAndRoleModel = await GetUserAndRoleService.GetUserAndRoleByIdAsync(userId);
         }
     }
 

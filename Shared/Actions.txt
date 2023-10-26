@@ -1,5 +1,10 @@
-﻿stop: niepotrafilem przekazac zawartosci result.Data do obiektu List<IdentityRole> roles
-start: zamienic InputDialog na RemoveUserRoleDialog
+﻿do zrobiania:
+controle post dla user and role
+dialog dla edit user and role
+
+
+
+
 
 https://codewithmukesh.com/blog/blazor-crud-using-mudblazor/
 

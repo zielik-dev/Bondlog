@@ -4,19 +4,18 @@ using System.Net.Http.Json;
 
 namespace Bondlog.Client.Services.Admin
 {
-    public class UsersAndRolesService : IUsersAndRolesService
+    public class GetUserAndRoleService : IGetUserAndRoleService
     {
         private readonly IHttpClientFactory _httpClientFactory;
-
-        public UsersAndRolesService(IHttpClientFactory httpClientFactory)
+        public GetUserAndRoleService(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<IEnumerable<UserAndRoleModel>> GetUsersAndRolesAsync()
+        public async Task <UserAndRoleModel> GetUserAndRoleByIdAsync(string userId)
         {
             var httpClientFactory = _httpClientFactory.CreateClient("MyApi");
-            var response = await httpClientFactory.GetFromJsonAsync<IEnumerable<UserAndRoleModel>>("api/userandrole");
+            var response = await httpClientFactory.GetFromJsonAsync<UserAndRoleModel>($"/api/userandrole/{userId}");
             return response;
         }
     }

@@ -29,14 +29,13 @@ else
                 <TemplateColumn CellClass="d-flex justify-end">
                     <CellTemplate>
                         <MudStack Row>
-                         <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="@Color.Primary" OnClick="() => OpenEditRoleDialog(context.Item)">Edit</MudButton>
-                         <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="@Color.Error" OnClick="() => OpenDeleteRoleDialog(context.Item.Name)">Delete</MudButton>
+                         <MudButton Size="@Size.Small" Disabled="@(context.Item.Name == "Administrator")" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="@Color.Primary" OnClick="() => OpenEditRoleDialog(context.Item)">Edit</MudButton>
+                         <MudButton Size="@Size.Small" Disabled="@(context.Item.Name == "Administrator")" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="@Color.Error" OnClick="() => OpenDeleteRoleDialog(context.Item.Name)">Delete</MudButton>
                         </MudStack>
                     </CellTemplate>
                 </TemplateColumn>
             </Columns>
         </MudDataGrid>
-
     </div>
 }
 

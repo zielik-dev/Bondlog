@@ -1,0 +1,39 @@
+﻿@using Bondlog.Client.Services.Admin;
+@using Bondlog.Client.Services.Interfaces;
+@using Bondlog.Shared.Domain.Models;
+@using Microsoft.AspNetCore.Identity;
+@inject IEditUserAndRoleService EditUserAndRoleService
+
+<MudDialog>
+    <DialogContent>
+        <MudTextField @bind-Value="userAndRoleModel.UserName" T="string" Label="Enter new role name"></MudTextField>
+        <MudTextField @bind-Value="userAndRoleModel.RoleName" T="string" Label="Enter new role name"></MudTextField>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Submit</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public UserAndRoleModel userAndRoleModel { get; set; }
+
+    private async Task Submit()
+    {
+        bool success = await EditUserAndRoleService.EditUserAndRoleAsync(userAndRoleModel);
+
+        if (success)
+        {
+            MudDialog.Close(DialogResult.Ok(success));
+        }
+        else
+        {
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}

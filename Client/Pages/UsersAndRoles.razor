@@ -1,15 +1,16 @@
 ﻿@page "/usersandroles"
+@using Bondlog.Client.Pages.Dialogs;
 @using Bondlog.Shared.Domain.Models;
 @using Bondlog.Client.Services.Interfaces;
-@inject NavigationManager NavigationManager;
-@inject IUsersAndRolesService UsersAndRolesService
+@inject IDialogService DialogService
+@inject IGetUsersAndRolesService GetUsersAndRolesService
 @inject IRemoveUserAndRoleService RemoveUserAndRoleService;
 
 <head>
     <link href="/css/components/user-roles.css" rel="stylesheet" />
 </head>
 
-<h3>User And Role</h3>
+<h3>Users And Roles</h3>
 
 @if (userRoles == null)
 {
@@ -18,6 +19,9 @@
 else
 {
     <div class="custom-data-grid">
+        <p />
+        <MudButton Size="@Size.Small" AutoRefresh="true" Variant="@Variant.Filled" Color="@Color.Primary" OnClick="() => OpenAddNewUserAndRoleDialog()">Add New User With Role</MudButton>
+        <p />
         <MudDataGrid Items="@userRoles" Filterable="false" SortMode="@SortMode.None" Groupable="false">
             <Columns>
                 <PropertyColumn Property="x => x.UserName" Title="User Name"/>
@@ -25,8 +29,8 @@ else
                 <TemplateColumn CellClass="d-flex justify-end">
                     <CellTemplate>
                         <MudStack Row>
-                            <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="@Color.Primary" OnClick="() => EditUserAndRole(context.Item.UserId)">Edit</MudButton>
-                            <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="@Color.Error" OnClick="() => DeleteUser(context.Item.UserId)">Delete</MudButton>
+                            <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="@Color.Primary" OnClick="() => OpenEditUserAndRoleDialog(context.Item)">Edit</MudButton>
+                         <MudButton Size="@Size.Small" Variant="@Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="@Color.Error" OnClick="() => OpenDeleteUserAndRoleDialog(context.Item.UserId)">Delete</MudButton>
                         </MudStack>
                     </CellTemplate>
                 </TemplateColumn>
@@ -35,58 +39,61 @@ else
     </div>
 }
 
-<MudDialog @ref="deleteDialog" IsOpen="@isDeleteDialogOpen" Title="Confirmation">
-    <Content>
-        Are you sure you want to delete the user?
-    </Content>
-    <Actions>
-        <MudButton Variant="@Variant.Filled" Color="@Color.Error" OnClick="ConfirmDelete">Yes</MudButton>
-        <MudButton Variant="@Variant.Filled" Color="@Color.Default" OnClick="CancelDelete">No</MudButton>
-    </Actions>
-</MudDialog>
-
-
 @code {
     private IEnumerable<UserAndRoleModel> userRoles;
-    private bool isDeleteDialogOpen = false;
-    private string userToDelete;
-    MudDialog deleteDialog;
-
 
     protected override async Task OnInitializedAsync()
     {
-        userRoles = await UsersAndRolesService.GetUsersAndRolesAsync();
+        userRoles = await GetUsersAndRolesAsync();
     }
 
-    private async void DeleteUser(string userId)
+    private async Task OpenAddNewUserAndRoleDialog()
     {
-        await RemoveUserAndRoleService.DeleteUser(userId);
+        var options = new DialogOptions
+            {
+                CloseButton = true,
+                DisableBackdropClick = false,
+                MaxWidth = MaxWidth.Small
+            };
+        var result = await this.DialogService.Show<AddUserAndRoleDialog>("Add New User with Role", options).Result;
 
-        // userToDelete = userId;
-        // isDeleteDialogOpen = true;
+        if (!result.Cancelled)
+            this.userRoles = await GetUsersAndRolesAsync();
     }
 
-    private async Task ConfirmDelete()
+    private async Task OpenEditUserAndRoleDialog(UserAndRoleModel model)
     {
-        if (!string.IsNullOrEmpty(userToDelete))
-        {
-            await RemoveUserAndRoleService.DeleteUser(userToDelete);
-            userToDelete = null;
-            isDeleteDialogOpen = false;
+        var options = new DialogOptions
+            {
+                CloseButton = true,
+                DisableBackdropClick = false,
+                MaxWidth = MaxWidth.Small
+            };
+        var parameters = new DialogParameters { { "userAndRoleModel", model } };
+        var result = await this.DialogService.Show<EditUserAndRoleDialog>(string.Empty, parameters, options).Result;
 
-            userRoles = await UsersAndRolesService.GetUsersAndRolesAsync();
-        }
+        if (!result.Cancelled)
+            this.userRoles = await GetUsersAndRolesAsync();
     }
 
-    private void CancelDelete()
+    private async Task OpenDeleteUserAndRoleDialog(string userId)
     {
-        userToDelete = null;
-        isDeleteDialogOpen = false;
+        var options = new DialogOptions
+            {
+                CloseButton = true,
+                DisableBackdropClick = false,
+                MaxWidth = MaxWidth.Small
+            };
+        var parameters = new DialogParameters { { "userId", userId } };
+        var result = await this.DialogService.Show<RemoveUserAndRoleDialog>(string.Empty, parameters, options).Result;
+
+        if (!result.Cancelled)
+            this.userRoles = await GetUsersAndRolesAsync();
     }
 
-    private void EditUserAndRole(string userId)
+    private async Task<IEnumerable<UserAndRoleModel>> GetUsersAndRolesAsync()
     {
-        var editUrl = $"edituserandrole/{userId}";
-        NavigationManager.NavigateTo(editUrl);
+        userRoles = await GetUsersAndRolesService.GetUsersAndRolesAsync();
+        return userRoles.OrderBy(x => x.UserName);
     }
 }

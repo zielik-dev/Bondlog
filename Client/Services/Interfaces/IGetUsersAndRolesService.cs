@@ -2,7 +2,7 @@
 
 namespace Bondlog.Client.Services.Interfaces
 {
-    public interface IUsersAndRolesService
+    public interface IGetUsersAndRolesService
     {
         public Task<IEnumerable<UserAndRoleModel>> GetUsersAndRolesAsync();
     }
